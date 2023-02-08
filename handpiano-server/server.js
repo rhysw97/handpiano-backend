@@ -19,7 +19,11 @@ io.on('connection', socket => {
           //socket.to(room.id).emit('message', room.name)
           userId = room.name
           roomName = room.id
-          names[roomName].push(name)
+          if(!names[roomName]) {
+            names[roomName] = [userId]
+          } else {
+            names[roomName].push(userId)
+          }
           socket.to(roomName).emit(names[roomName])
           console.log(`user ${userId} connected to ${roomName}`)
         })
@@ -46,3 +50,4 @@ io.on('connection', socket => {
 server.listen(PORT, ()=> {
     console.log(`listening on port ${PORT}`)
 })
+
